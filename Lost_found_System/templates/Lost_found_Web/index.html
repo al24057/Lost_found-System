@@ -11,12 +11,12 @@
 
   <!-- サイドバー -->
   <div class="sidebar">
-    <div class="app-title">My App</div>
+    <div class="app-title">Founder</div>
     <div class="menu">
-      <a href="#">ホーム</a>
-      <a href="#">投稿</a>
-      <a href="#">検索</a>
-      <a href="#">履歴</a>
+      <a href={% url 'Lost_found_Web:index' %}>ホーム</a>
+      <a href={% url 'Lost_found_Web:post' %}>投稿</a>
+      <a href={% url 'Lost_found_Web:search' %}>検索</a>
+      <a href={% url 'Lost_found_Web:history' %}>履歴</a>
     </div>
   </div>
 
