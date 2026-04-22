@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Lost_found_Web.apps.LostFoundWebConfig'
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Lost_found_System.wsgi.application'
+
+STATICFILES_DIRS=[
+    BASE_DIR/"static"
+]
 
 
 # Database

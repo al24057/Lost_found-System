@@ -1,0 +1,57 @@
+<!-- index.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>掲示板アプリ</title>
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/styles.css' %}">
+</head>
+<body>
+
+  <!-- サイドバー -->
+  <div class="sidebar">
+    <div class="app-title">My App</div>
+    <div class="menu">
+      <a href="#">ホーム</a>
+      <a href="#">投稿</a>
+      <a href="#">検索</a>
+      <a href="#">履歴</a>
+    </div>
+  </div>
+
+  <!-- メインエリア -->
+  <div class="main">
+    <h1 class="board-title">落とし物掲示板</h1>
+    <div class="post" onclick="openModal('投稿1の詳細です')">
+      <h3>投稿1</h3>
+      <p>これはサンプル投稿です。</p>
+    </div>
+
+    <div class="post" onclick="openModal('投稿2の詳細です')">
+      <h3>投稿2</h3>
+      <p>別のサンプル投稿です。</p>
+    </div>
+
+    <div class="post" onclick="openModal('投稿3の詳細です')">
+      <h3>投稿3</h3>
+      <p>さらに別の投稿です。</p>
+    </div>
+  </div>
+
+  <!-- モーダル -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <p id="modal-text"></p>
+      <div class="modal-buttons">
+        <button class="btn confirm" onclick="confirmAction()">確認</button>
+        <button class="btn cancel" onclick="closeModal()">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS読み込み -->
+  <script src="{% static 'Lost_found_Web/script.js' %}"></script>
+
+</body>
+</html>
