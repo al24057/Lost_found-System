@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
+from .models import Post
 
 class IndexView(View):
     def get(self, request):
-        return render(request, "Lost_found_Web/index.html")
+        posts = Post.objects.all().order_by('-created_at')
+        return render(request, "Lost_found_Web/index.html", {'posts':posts})
     
 class DetailView(View):
-    def get(self, request):
-        return render(request, "Lost_found_Web/detail.html")
+    def get(self, request,pk):
+        post = get_object_or_404(Post, pk=pk)
+        return render(request, "Lost_found_Web/detail.html",{'post':post})
     
 class PostView(View):
     def get(self, request):

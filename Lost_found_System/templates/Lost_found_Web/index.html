@@ -23,28 +23,25 @@
   <!-- メインエリア -->
   <div class="main">
     <h1 class="board-title">落とし物掲示板</h1>
-    <div class="post" onclick="openModal('投稿1の詳細です')">
-      <h3>投稿1</h3>
-      <p>これはサンプル投稿です。</p>
-    </div>
+    {% for post in posts %}
+    <div class="post" onclick="openConfirm('{% url 'Lost_found_Web:detail' post.id %}')">
+      
+      <h3>投稿者：{{ post.user.username }}</h3>
 
-    <div class="post" onclick="openModal('投稿2の詳細です')">
-      <h3>投稿2</h3>
-      <p>別のサンプル投稿です。</p>
-    </div>
+      <p>物：{{ post.get_item_display }}</p>
+      <p>色：{{ post.get_color_display }}</p>
+      <p>場所：{{ post.get_location_display }}</p>
 
-    <div class="post" onclick="openModal('投稿3の詳細です')">
-      <h3>投稿3</h3>
-      <p>さらに別の投稿です。</p>
     </div>
+  {% endfor %}
   </div>
 
   <!-- モーダル -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <p id="modal-text"></p>
+      <p>この投稿の詳細を表示しますか？</p>
       <div class="modal-buttons">
-        <button class="btn confirm" onclick="confirmAction()">確認</button>
+        <button class="btn confirm" onclick="goDetail()">確認</button>
         <button class="btn cancel" onclick="closeModal()">キャンセル</button>
       </div>
     </div>
