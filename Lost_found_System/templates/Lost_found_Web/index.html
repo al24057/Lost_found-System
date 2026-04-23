@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>掲示板アプリ</title>
-  <link rel="stylesheet" href="{% static 'Lost_found_Web/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/homes.css' %}">
 </head>
 <body>
 
@@ -13,7 +13,7 @@
   <div class="sidebar">
     <div class="app-title">Founder</div>
     <div class="menu">
-      <a href={% url 'Lost_found_Web:index' %}>ホーム</a>
+      <a href={% url 'Lost_found_Web:home' %}>ホーム</a>
       <a href={% url 'Lost_found_Web:post' %}>投稿</a>
       <a href={% url 'Lost_found_Web:search' %}>検索</a>
       <a href={% url 'Lost_found_Web:history' %}>履歴</a>
@@ -51,7 +51,7 @@
   </div>
 
   <!-- JS読み込み -->
-  <script src="{% static 'Lost_found_Web/script.js' %}"></script>
+  <script src="{% static 'Lost_found_Web/homes.js' %}"></script>
 
 </body>
 </html>
