@@ -70,6 +70,9 @@ class Post(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     
+    status = models.CharField(choices=[('open', '未解決'), ('resolved', '解決済')], default='open')
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    
     def __str__(self):
         floor = self.get_floor_display() if self.floor else ""
         return f"{self.get_item_display()} / {self.get_color_display()} / {self.get_location_display()} {floor}"
