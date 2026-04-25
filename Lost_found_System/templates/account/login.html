@@ -13,6 +13,12 @@
   <div class="container">
     <h1 class="app-title">Founder</h1>
 
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
     <a href="{% provider_login_url 'google' next='/' %}" class="google-btn">
       Googleでログイン
     </a>

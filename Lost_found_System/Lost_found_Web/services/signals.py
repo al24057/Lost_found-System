@@ -5,18 +5,6 @@ from django.core.exceptions import PermissionDenied
 
 ALLOWED_DOMAIN = "shibaura-it.ac.jp"
 
-# ① ドメイン制限（ログイン前チェック）
-@receiver(pre_social_login)
-def restrict_domain(sender, request, sociallogin, **kwargs):
-    email = sociallogin.user.email
-
-    if not email:
-        raise PermissionDenied("メールアドレスが取得できません")
-
-    if not email.endswith(f"@{ALLOWED_DOMAIN}"):
-        raise PermissionDenied("学内メールのみログイン可能です")
-
-
 # ② ユーザ名生成（保存後に安全に実行）
 @receiver(user_signed_up)
 def set_username(sender, request, user, **kwargs):
