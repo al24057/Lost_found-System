@@ -45,12 +45,22 @@
 
   <!-- モーダル -->
   <div id="modal" class="modal">
-    <div class="modal-content">
-      <p>この投稿の詳細を表示しますか？</p>
+    <div class="modal-content warning">
+
+      <div class="warning-title">⚠️【警告】</div>
+
+      <p class="warning-text">
+        この投稿の詳細には、落とし物に関する情報や個人情報が含まれる場合があります。<br>
+        内容をご確認のうえご覧ください。<br>
+        なお、本システムでは運用管理のため閲覧履歴が記録されており、必要に応じて管理者からご連絡させていただく場合があります。
+      </p>
+
       <div class="modal-buttons">
-        <button class="btn confirm" onclick="goDetail()">確認</button>
+        <!-- ←ボタン順を入れ替え -->
         <button class="btn cancel" onclick="closeModal()">キャンセル</button>
+        <button class="btn confirm" onclick="goDetail()">確認する</button>
       </div>
+
     </div>
   </div>
 
