@@ -1,0 +1,22 @@
+{% load socialaccount %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン</title>
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/login.css' %}">
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="app-title">Founder</h1>
+
+    <a href="{% provider_login_url 'google' next='/' %}" class="google-btn">
+      Googleでログイン
+    </a>
+  </div>
+
+</body>
+</html>

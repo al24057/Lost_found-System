@@ -1,118 +1,152 @@
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+}
 
-    /* サイドバー */
-    .sidebar {
-      width: 220px;
-      background-color: #2c3e50;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      height: 100%;
-    }
+/* サイドバー */
+.sidebar {
+  width: 220px;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column; /* ← 重要 */
+  position: fixed;
+  height: 100%;
+}
 
-    .app-title {
-      font-size: 20px;
-      font-weight: bold;
-      padding: 20px;
-      border-bottom: 1px solid #34495e;
-    }
+/* タイトル */
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 1px solid #34495e;
+}
 
-    .menu {
-      flex: 1;
-    }
+/* メニュー全体 */
+.menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ← これで下にスペースを押し出す */
+}
 
-    .menu a {
-      display: block;
-      padding: 15px 20px;
-      color: white;
-      text-decoration: none;
-    }
+/* ユーザ名 */
+.menu-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #34495e;
+  color: #bdc3c7;
+}
 
-    .menu a:hover {
-      background-color: #34495e;
-    }
+.menu-item.user {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;          /* ← サイズ改善 */
+  text-align: center;       /* ← 中央寄せ */
+  padding: 20px;
+  background-color: #34495e; /* ← 見やすく */
+}
 
-    /* メインエリア */
-    .main {
-      margin-left: 220px;
-      padding: 20px;
-      width: calc(100% - 220px);
-      background-color: #ecf0f1;
-      overflow-y: auto;
-    }
+/* メニューリンク */
+.menu a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+}
 
-    .board-title {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #2c3e50;
-      border-left: 6px solid #3498db;
-      padding-left: 10px;
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-    }
+.menu a:hover {
+  background-color: #34495e;
+}
 
-    /* 投稿カード */
-    .post {
-      background: white;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
+/* ログアウト（下固定） */
+.logout-btn {
+  padding: 15px 20px;
+  border-top: 1px solid #34495e;
+  color: #e74c3c;
+  text-decoration: none;
+}
 
-    .post:hover {
-      transform: scale(1.02);
-    }
+.logout-btn:hover {
+  background-color: #34495e;
+}
 
-    /* モーダル */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
+/* メインエリア */
+.main {
+  margin-left: 220px;
+  padding: 20px;
+  width: calc(100% - 220px);
+  background-color: #ecf0f1;
+  overflow-y: auto;
+}
 
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
-    }
+/* タイトル */
+.board-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  border-left: 6px solid #3498db;
+  padding-left: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
 
-    .modal-buttons {
-      margin-top: 20px;
-    }
+/* 投稿カード */
+.post {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
-    .btn {
-      padding: 10px 15px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+.post:hover {
+  transform: scale(1.02);
+}
 
-    .confirm {
-      background-color: #3498db;
-      color: white;
-    }
+/* モーダル */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
 
-    .cancel {
-      background-color: #e74c3c;
-      color: white;
-    }
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm {
+  background-color: #3498db;
+  color: white;
+}
+
+.cancel {
+  background-color: #e74c3c;
+  color: white;
+}

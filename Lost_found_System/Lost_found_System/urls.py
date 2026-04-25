@@ -18,8 +18,22 @@ from django.contrib import admin
 from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect
+
+def disable_view(request):
+    return HttpResponseForbidden("この機能は使えません")
+
+def custom_login(request):
+    return render(request, "account/login.html")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', custom_login),
+    path('accounts/', include('allauth.urls')),
+    
+    path('accounts/login/', disable_view),
+    path('accounts/signup/', disable_view),
+    
     path('', include("Lost_found_Web.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

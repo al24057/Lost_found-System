@@ -12,12 +12,19 @@
   <!-- サイドバー -->
   <div class="sidebar">
     <div class="app-title">Founder</div>
+    
     <div class="menu">
+      <div class="menu-item user">
+        {{ user.username }}
+      </div>
+
       <a href={% url 'Lost_found_Web:home' %}>ホーム</a>
       <a href={% url 'Lost_found_Web:post' %}>投稿</a>
       <a href={% url 'Lost_found_Web:search' %}>検索</a>
       <a href={% url 'Lost_found_Web:history' %}>履歴</a>
     </div>
+
+    <a href="{% url 'account_logout' %}" class="logout-btn">ログアウト</a>
   </div>
 
   <!-- メインエリア -->
