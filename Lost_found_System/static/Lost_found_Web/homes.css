@@ -96,16 +96,63 @@ body {
 /* 投稿カード */
 .post {
   background: white;
-  padding: 15px;
+  padding: 15px 18px;
   margin-bottom: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
+  border-left: 5px solid #3498db;
 }
 
 .post:hover {
-  transform: scale(1.02);
+  transform: translateY(-3px);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-user {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.post-time {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* 本文 */
+.post-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* タグエリア */
+.post-tags {
+  margin-bottom: 6px;
+}
+
+/* タグ */
+.tag {
+  display: inline-block;
+  background: #ecf0f1;
+  padding: 4px 8px;
+  margin: 3px 3px 0 0;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #2c3e50;
+}
+
+/* 場所 */
+.post-location {
+  font-size: 14px;
+  color: #34495e;
+  margin: 5px 0 0 0;
 }
 
 /* モーダル */
