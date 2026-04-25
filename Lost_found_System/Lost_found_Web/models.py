@@ -38,6 +38,7 @@ class Post(models.Model):
         ('exchange_building', '交流棟'),
         ('research_building', '研究棟'),
         ('community_space', '有元史郎記念校友会館交流プラザ'),
+        ('other', 'その他'),
     ]
     
     FLOOR_CHOICES = [
