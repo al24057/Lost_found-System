@@ -72,6 +72,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     status = models.CharField(choices=[('open', '未解決'), ('resolved', '解決済')], default='open')
+    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="resolved_posts")
     resolved_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
