@@ -10,18 +10,34 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1 class="app-title">Founder</h1>
+  <div class="background"></div>
 
+  <div class="card">
+
+    <h1 class="app-title">🔥 finder</h1>
+    <p class="subtitle">落とし物を見つけよう</p>
+
+    <!-- メッセージ表示（全部出す） -->
     {% if messages %}
-      {% for message in messages %}
-        <div class="alert">{{ message }}</div>
-      {% endfor %}
+      <div class="message-area">
+        {% for message in messages %}
+          <div class="alert {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
     {% endif %}
 
+    <!-- Googleログイン -->
     <a href="{% provider_login_url 'google' next='/' %}" class="google-btn">
+      <img src="https://developers.google.com/identity/images/g-logo.png" class="google-icon">
       Googleでログイン
     </a>
+
+    <p class="note">
+      学内アカウント（@shibaura-it.ac.jp）でログインしてください
+    </p>
+
   </div>
 
 </body>

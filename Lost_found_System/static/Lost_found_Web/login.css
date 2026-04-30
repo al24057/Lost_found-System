@@ -1,37 +1,112 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ecf0f1;
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #74ebd5, #ACB6E5);
 }
 
-/* 中央配置 */
-.container {
+/* カード */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 30px;
+  border-radius: 16px;
+  width: 340px;
   text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  backdrop-filter: blur(8px);
 }
 
-/* アプリ名 */
+/* タイトル */
 .app-title {
-  font-size: 36px;
+  margin: 0;
+  font-size: 32px;
   color: #2c3e50;
-  margin-bottom: 30px;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+/* メッセージエリア */
+.message-area {
+  margin-bottom: 20px;
+}
+
+/* メッセージ共通 */
+.alert {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-align: left;
+}
+
+/* 種類別 */
+.alert.error {
+  background-color: #ffecec;
+  color: #e74c3c;
+}
+
+.alert.success {
+  background-color: #eafaf1;
+  color: #2ecc71;
+}
+
+.alert.warning {
+  background-color: #fff4e5;
+  color: #f39c12;
+}
+
+.alert.info {
+  background-color: #e8f4fd;
+  color: #3498db;
 }
 
 /* Googleボタン */
 .google-btn {
-  display: inline-block;
-  padding: 14px 24px;
-  font-size: 16px;
-  color: white;
-  background-color: #4285F4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+
+  font-size: 15px;
+  color: #444;
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 8px;
   text-decoration: none;
-  transition: 0.2s;
+
+  transition: all 0.2s ease;
 }
 
 .google-btn:hover {
-  background-color: #3367d6;
+  background-color: #f7f7f7;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Googleアイコン */
+.google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* 注意文 */
+.note {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #888;
 }
