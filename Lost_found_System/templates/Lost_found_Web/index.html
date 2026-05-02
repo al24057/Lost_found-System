@@ -4,18 +4,22 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🔥finder</title>
   <link rel="stylesheet" href="{% static 'Lost_found_Web/homes.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
 
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
   <!-- サイドバー -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <div class="app-title">🔥finder</div>
     
     <div class="menu">
       <div class="menu-item user">
-        {{ user.username }}
+        {{ user.username }} 
       </div>
 
       <a href={% url 'Lost_found_Web:home' %}>ホーム</a>
@@ -29,6 +33,10 @@
 
   <!-- メインエリア -->
   <div class="main">
+    <div class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="mobile-app-title">🔥finder</span>
+    </div>
     <h1 class="board-title">落とし物掲示板</h1>
     {% for post in posts %}
     <div class="post" onclick="openConfirm('{% url 'Lost_found_Web:detail' post.id %}')">

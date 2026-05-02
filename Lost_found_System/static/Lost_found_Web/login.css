@@ -110,3 +110,44 @@ body {
   font-size: 12px;
   color: #888;
 }
+
+@media (max-width: 480px) {
+  /* カードの幅を画面いっぱいに近づけ、余白を調整 */
+  .card {
+    width: 95%; /* 左右の余白を最小限に */
+    padding: 50px 25px; /* 上下を少しゆったりさせる */
+  }
+
+  /* タイトルを大きくして目立たせる */
+  .app-title {
+    font-size: 38px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    margin-bottom: 35px;
+  }
+
+  /* ボタンを大きくしてタップしやすくする（指で押しやすく） */
+  .google-btn {
+    padding: 16px; 
+    font-size: 17px; /* 文字を大きく */
+    border-radius: 12px; /* 少し丸みを強調 */
+  }
+
+  .google-icon {
+    width: 22px; /* アイコンも少し大きく */
+    height: 22px;
+  }
+
+  /* 注意文やメッセージも視認性アップ */
+  .note {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .alert {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
