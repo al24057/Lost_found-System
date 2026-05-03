@@ -71,3 +71,50 @@ DB_NAME = your_database_name.sqlite3
 
 ### 3. AIモデル（YOLOv26）の配置
 本システムのコアとなる解析モデルを以下のディレクトリに配置してください。
+- **配置パス:** Lost_found_Web/ml_models/your_best.pt
+- **入手方法:** 開発チーム内の共有ストレージよりダウンロード、または学習済みカスタムウェイトを配置してください。
+
+### 4. データベースの初期化と起動
+```bash
+#データベースのマイグレーション
+python manage.py migrate
+
+#開発サーバの起動
+python manage.py runserver
+```
+
+起動後、ブラウザで http://127.0.0.1:8000 にアクセスしてください。
+
+## 📂 ディレクトリ構造
+```text
+Lost_found-System/
+ ├── Lost_found_System/        # プロジェクト全体ルート
+ │   ├── Lost_found_System/    # プロジェクト設定フォルダ
+ │   │   ├── settings.py       # 環境変数(.env)の読み込み・基本設定
+ │   │   └── urls.py           # 全体のルートURL定義
+ │   ├── Lost_found_Web/       # メインアプリケーション（ロジック担当）
+ │   │   ├── ml_models/        # 【重要】YOLOv26学習済みモデル(best.pt)の配置先
+ │   │   ├── services/
+ │   │   │   └── signals.py    # Googleログイン時のユーザー情報自動保存ロジック
+ │   │   ├── adapter.py        # 特定ドメイン(@school.ac.jp)限定の認証フィルター
+ │   │   ├── forms.py          # 拾得物投稿フォーム・バリデーション定義
+ │   │   ├── views.py          # AI解析結果の処理・画面表示制御
+ │   │   └── models.py         # 落とし物・ログ・ユーザー情報のDB定義
+ │   ├── media/
+ │   │   └── lost_items/       # アップロードされた落とし物写真の保存先
+ │   ├── static/               # プロジェクト全体のCSS, JavaScript, 画像資産
+ │   ├── templates/            # プロジェクト全体のHTMLテンプレート
+ │   └── manage.py             # Django管理コマンド実行ファイル
+ ├── .env                      # 環境変数設定ファイル（Git除外）
+ └── requirements.txt          # 依存ライブラリ一覧
+```
+
+## 🌐 デプロイに関する補足
+本システムは学内ネットワークへのデプロイを想定しています。
+- **柔軟な認証切り替え:** Google OAuthの設定はすべて .env で管理されているため、デプロイ後に正式なドメインや組織用IDが確定した際も、サーバー上の設定ファイルを更新するだけでダウンタイムなしに正式運用へ移行可能です。
+- **デバッグモード:** 本番稼働時は .env 内の DEBUG=False に設定し、セキュリティを確保してください。
+
+## 📜 ライセンス
+MIT License に基づき公開されています。
+
+**Author:** al24057
