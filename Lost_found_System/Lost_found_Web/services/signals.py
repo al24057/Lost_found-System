@@ -3,8 +3,6 @@ from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.core.exceptions import PermissionDenied
 
-ALLOWED_DOMAIN = "shibaura-it.ac.jp"
-
 # ② ユーザ名生成（保存後に安全に実行）
 @receiver(user_signed_up)
 def set_username(sender, request, user, **kwargs):

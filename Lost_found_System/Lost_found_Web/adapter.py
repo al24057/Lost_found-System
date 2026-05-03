@@ -2,8 +2,12 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.shortcuts import redirect
 from django.contrib import messages
 from allauth.exceptions import ImmediateHttpResponse
+import os
+from dotenv import load_dotenv
 
-ALLOWED_DOMAIN = "shibaura-it.ac.jp"
+load_dotenv()
+
+ALLOWED_DOMAIN = os.getenv("ALLOWED_DOMAIN")
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
 
