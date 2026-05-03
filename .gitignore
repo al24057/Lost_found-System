@@ -209,7 +209,11 @@ __marimo__/
 # --- AIモデル（バイナリファイル） ---
 *.pt
 *.weights
-Lost_found_System/Lost_found_Web/ml_models/lost_found_best.pt
+Lost_found_System/Lost_found_Web/ml_models/*
+
+!Lost_found_System/Lost_found_Web/ml_models/.gitkeep
 
 # --- ユーザーアップロードメディア ---
-Lost_found_System/media/
+Lost_found_System/media/lost_items/*
+
+!Lost_found_System/media/lost_items/.gitkeep
