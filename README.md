@@ -104,18 +104,19 @@ git push
 
 ```text
 # ドメイン設定
-ALLOWED_DOMAIN = example.com         # example.comには制限したいドメインを入れてください。
+ALLOWED_DOMAIN = example.com                        # example.comには制限したいドメインを入れてください。
 
 # Django基本設定
-SECRET_KEY = your-random-secret-key  # 各自でランダムな文字列を設定してください
+SECRET_KEY = your-random-secret-key                 # 各自でランダムな文字列を設定してください
 DEBUG = True
 
 # Google OAuth設定
 GOOGLE_CLIENT_ID = your-google-client-id
 GOOGLE_CLIENT_SECRET = your-google-client-secret
 
-# データベース設定
-DB_NAME = your_database_name.sqlite3 # your_database_nameにはあなたのデータベース名にしたい名前を入れてください。
+# データベース設定（SQLiteの場合）
+DB_ENGINE = django.db.backends.sqlite3
+DB_NAME = your_database_name.sqlite3                # your_database_nameにはデータベース名にしたい名前を入れてください。
 ```
 
 **重要：.envファイルは絶対にGitHubへプッシュしないでください**
