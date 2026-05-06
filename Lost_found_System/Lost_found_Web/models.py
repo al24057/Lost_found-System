@@ -9,11 +9,10 @@ class Post(models.Model):
     ITEM_CHOICES = [
         ('umbrella', '傘'),
         ('stationary', '文房具'),
-        ('phone', 'スマホ'),
-        ('wallet', '財布'),
-        ('book', '本(教科書・ノートなど)'),
-        ('bottle', '水筒'),
-        ('card', 'カード類(学生証など)'),
+        ('electronic_device', '電子機器および周辺機器(スマホ、イヤホンなど)'),
+        ('valuable', '貴重品(財布、学生証など)'),
+        ('book', '本(教科書、ノートなど)'),
+        ('daily', '日用品(水筒、眼鏡など)'),
         ('other', 'その他'),
     ]
     
