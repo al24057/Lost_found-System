@@ -280,6 +280,20 @@ body {
     padding: 10px;
   }
 
+  /* スマホ用ヘッダーバー内のタイトルデザイン */
+  .mobile-app-title {
+    font-size: 22px;         /* サイズを大きく */
+    font-weight: bold;        /* かなり太めに（ボールド） */
+    letter-spacing: 1px;     /* 文字の間を少し開けてロゴっぽく */
+    color: #ffffff;          /* 白を維持 */
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* シュッとしたフォントに */
+  
+    /* 炎の絵文字とテキストのバランス調整 */
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* 軽く影をつけて立体感を出す */
+  }
+
   /* 背景を暗くする幕 */
   .overlay {
     display: none;
