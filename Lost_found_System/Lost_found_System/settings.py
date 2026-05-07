@@ -122,10 +122,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+db_engine = os.getenv('DB_ENGINE', 'django.db.backends.sqlite3')
+
+if db_engine == 'django.db.backends.sqlite3':
+    db_name = BASE_DIR / os.getenv('DB_NAME', 'db.sqlite3')
+else:
+    db_name = os.getenv('DB_NAME', '')
+
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': BASE_DIR / os.getenv('DB_NAME', 'db.sqlite3'),
+        'ENGINE': db_engine,
+        'NAME': db_name,
         'USER': os.getenv('DB_USER', ''),
         'PASSWORD': os.getenv('DB_PASS', ''),
         'HOST': os.getenv('DB_HOST', ''),
