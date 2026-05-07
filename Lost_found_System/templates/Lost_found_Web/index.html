@@ -40,7 +40,7 @@
     <h1 class="board-title">落とし物掲示板</h1>
     <div class="board-controls">
       <div class="switch-container">
-        <span class="switch-label">解決済を表示</span>
+        <span class="switch-label">解決済投稿を表示</span>
         <label class="switch">
           <input type="checkbox" id="status-toggle" {% if current_status == 'resolved' %}checked{% endif %}>
           <span class="slider"></span>
@@ -51,7 +51,13 @@
     <div class="post" onclick="openConfirm('{% url 'Lost_found_Web:detail' post.id %}')">
       <div class="post-header">
         <span class="post-user">👤 {{ post.user.username }}</span>
-        <span class="post-time">{{ post.created_at|date:"Y-m-d H:i" }}</span>
+        <span class="post-time">
+          {% if post.status == 'resolved' %}
+            ✅ 解決日: {{ post.resolved_at|date:"Y-m-d H:i" }}
+          {% else %}
+            📅 投稿日: {{ post.created_at|date:"Y-m-d H:i" }}
+          {% endif %}
+        </span>
       </div>
 
       <div class="post-body">
