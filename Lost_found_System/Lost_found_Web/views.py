@@ -3,9 +3,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Post, PostView
 from django.utils import timezone
+from datetime import timedelta
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
+        expired_date = timezone.now() - timedelta(days=14)
+        Post.objects.filter(status='resolved', resolved_at__lte=expired_date).delete()
         status_filter = request.GET.get('status', 'open')
         posts = Post.objects.filter(status=status_filter).order_by('-created_at')
         return render(request, "Lost_found_Web/index.html", {'posts':posts, 'current_status': status_filter})

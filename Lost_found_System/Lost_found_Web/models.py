@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+import os
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -86,3 +89,12 @@ class PostView(models.Model):
     def __str__(self):
         local_time = timezone.localtime(self.viewed_at)
         return f"{self.user.username} が {self.post} を {local_time.strftime('%Y-%m-%d %H:%M')} に閲覧"
+    
+@receiver(post_delete, sender=Post)
+def delete_image_file(sender, instance, **kwargs):
+    """
+    レコードが削除されたら、紐付いている画像ファイルも物理的に削除する
+    """
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
