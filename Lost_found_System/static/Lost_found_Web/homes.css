@@ -80,6 +80,8 @@ body {
   overflow-y: auto;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 /* タイトル */
@@ -293,4 +295,106 @@ body {
   .overlay.active {
     display: block;
   }
+
+  .board-controls {
+    margin-top: 5px;   /* タイトルとの間隔を少し広げる */
+    margin-bottom: 15px;
+    padding-right: 15px; /* 画面端から少し離す */
+  }
+
+  .switch-container {
+    background: white;       /* スイッチ周りを白背景にする（浮き立たせる） */
+    padding: 8px 15px;
+    border-radius: 30px;     /* カプセル状のデザインに */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 軽い影で「押せる感」を出す */
+  }
+
+  .switch-label {
+    font-size: 14px;         /* スマホで見やすいサイズに */
+    color: #34495e;          /* 少し濃い色にして視認性アップ */
+  }
+
+  .switch {
+    width: 52px;             /* 少しだけサイズアップ */
+    height: 26px;
+  }
+
+  .slider:before {
+    height: 20px;            /* 丸いボタンも少し大きく */
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px); /* サイズアップに合わせて移動距離を調整 */
+  }
+}
+
+/* コントロールエリア全体のレイアウト */
+.board-controls {
+  display: flex;
+  justify-content: flex-end; /* 右寄せ */
+  align-items: center;
+  padding: 0 10px;           /* 左右の微調整 */
+  margin-bottom: 20px; /* 投稿との間隔を広げる */
+  width: 100%;        /* 横幅いっぱい使う */
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.switch-label {
+  font-size: 13px;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+/* スイッチ本体のデザイン */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #bdc3c7; /* オフの時の色（落ち着いたグレー） */
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* オン（解決済）の時の色：鮮やかな緑 */
+input:checked + .slider {
+  background-color: #2ecc71;
+}
+
+/* オン（解決済）の時に丸を右へ */
+input:checked + .slider:before {
+  transform: translateX(24px);
 }

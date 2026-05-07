@@ -6,8 +6,9 @@ from django.utils import timezone
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
-        posts = Post.objects.all().order_by('-created_at')
-        return render(request, "Lost_found_Web/index.html", {'posts':posts})
+        status_filter = request.GET.get('status', 'open')
+        posts = Post.objects.filter(status=status_filter).order_by('-created_at')
+        return render(request, "Lost_found_Web/index.html", {'posts':posts, 'current_status': status_filter})
     
 class DetailView(LoginRequiredMixin, View):
     def get(self, request, pk):

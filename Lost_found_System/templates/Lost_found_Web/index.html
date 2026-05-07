@@ -38,6 +38,15 @@
       <span class="mobile-app-title">🔥finder</span>
     </div>
     <h1 class="board-title">落とし物掲示板</h1>
+    <div class="board-controls">
+      <div class="switch-container">
+        <span class="switch-label">解決済を表示</span>
+        <label class="switch">
+          <input type="checkbox" id="status-toggle" {% if current_status == 'resolved' %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
     {% for post in posts %}
     <div class="post" onclick="openConfirm('{% url 'Lost_found_Web:detail' post.id %}')">
       <div class="post-header">
