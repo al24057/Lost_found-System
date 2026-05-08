@@ -1,13 +1,96 @@
-{% load static %}
+<!-- detail.html -->
+ {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥finder</title>
-<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥finder</title>
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/detail.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
-<h1>詳細ページ</h1>
+
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- サイドバー -->
+  <div class="sidebar" id="sidebar">
+    <div class="app-title">🔥finder</div>
+    
+    <div class="menu">
+      <div class="menu-item user">
+        {{ user.username }} 
+      </div>
+
+      <a href={% url 'Lost_found_Web:home' %}>ホーム</a>
+      <a href={% url 'Lost_found_Web:post' %}>投稿</a>
+      <a href={% url 'Lost_found_Web:search' %}>検索</a>
+      <a href={% url 'Lost_found_Web:history' %}>履歴</a>
+    </div>
+
+    <a href="{% url 'account_logout' %}" class="logout-btn">ログアウト</a>
+  </div>
+
+  <div class="main">
+    <div class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="mobile-app-title">🔥finder</span>
+    </div>
+
+    <div class="detail-container">
+      <div class="detail-card">
+        <div class="post-author">
+          <span>投稿者: <strong>{{ post.user.username }}</strong></span>
+        </div>
+
+        <h2 class="detail-title">{{ post.get_item_display }}</h2>
+      
+        {% if post.image %}
+          <img src="{{ post.image.url }}" alt="item image" class="detail-image">
+        {% endif %}
+
+        <div class="detail-info">
+          <p><strong>詳細:</strong> {{ post.item_detail|default:"なし" }}</p>
+          <p><strong>色:</strong> {{ post.get_color_display }}</p>
+          <p><strong>場所:</strong> {{ post.get_location_display }} {{ post.get_floor_display|default:"" }}</p>
+          <p><strong>具体的な場所:</strong> {{ post.location_detail|default:"なし" }}</p>
+          <p><strong>投稿日:</strong> {{ post.created_at|date:"Y/m/d H:i" }}</p>
+        </div>
+
+        <div class="action-buttons-container">
+          {% if post.status == 'open' %}
+            <form method="POST" class="action-form">
+              {% csrf_token %}
+              <div class="button-group">
+                <div class="btn-wrapper">
+                  <a href="{% url 'Lost_found_Web:home' %}" class="round-btn btn-cancel">
+                    <span class="icon">✕</span>
+                  </a>
+                  <span class="btn-label">違う</span>
+                </div>
+
+                <div class="btn-wrapper">
+                  <button type="submit" name="action" value="resolve" class="round-btn btn-confirm">
+                    <span class="icon">✓</span>
+                  </button>
+                  <span class="btn-label">私のです</span>
+                </div>
+              </div>
+            </form>
+          {% else %}
+            <div class="resolved-message">
+              <p class="status-badge">この投稿は解決済みです</p>
+              <p class="contact-text">
+                ※この投稿内容について質問や確認があれば、<br>
+                <strong>学生課</strong>に連絡してください。
+              </p>
+              <a href="{% url 'Lost_found_Web:home' %}" class="btn-back">ホームに戻る</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'Lost_found_Web/detail.js' %}"></script>
 </body>
 </html>
