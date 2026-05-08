@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Post, PostView
@@ -30,7 +30,19 @@ class DetailView(LoginRequiredMixin, View):
             obj.viewed_at = timezone.now()
             obj.save()
         
-        return render(request, "Lost_found_Web/detail.html")
+        return render(request, "Lost_found_Web/detail.html", {'post': post})
+    
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        action = request.POST.get('action')
+
+        if action == 'resolve':
+            post.status = 'resolved'
+            post.resolved_by = request.user
+            post.resolved_at = timezone.now()
+            post.save()
+        
+        return redirect('Lost_found_Web:home')
     
 class PostPageView(LoginRequiredMixin, View):
     def get(self, request):

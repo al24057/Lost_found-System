@@ -1,0 +1,308 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 220px;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column; /* ← 重要 */
+  position: fixed;
+  height: 100%;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* タイトル */
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 1px solid #34495e;
+}
+
+/* メニュー全体 */
+.menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ← これで下にスペースを押し出す */
+}
+
+/* ユーザ名 */
+.menu-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #34495e;
+  color: #bdc3c7;
+}
+
+.menu-item.user {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;          /* ← サイズ改善 */
+  text-align: center;       /* ← 中央寄せ */
+  padding: 20px;
+  background-color: #34495e; /* ← 見やすく */
+}
+
+/* メニューリンク */
+.menu a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background-color: #34495e;
+}
+
+/* ログアウト（下固定） */
+.logout-btn {
+  padding: 15px 20px;
+  border-top: 1px solid #34495e;
+  color: #e74c3c;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  background-color: #34495e;
+}
+
+.main {
+  padding: 20px;
+  background-color: #ecf0f1;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. PCの場合の設定（これまでの表示を維持） */
+@media (min-width: 769px) {
+  .main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+  /* PCではスマホ用パーツを隠す */
+  .mobile-header, .overlay {
+    display: none;
+  }
+}
+
+/* 2. スマホの場合の設定（Slack/Discord風） */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%); /* 画面の左外に隠す */
+  }
+  
+  /* JSでactiveクラスがついた時だけ表示 */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 70px; /* ヘッダーの高さ分、中身を下げる */
+  }
+
+  /* スマホ用ヘッダーバー */
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 0 15px;
+    z-index: 1100;
+    box-sizing: border-box;
+  }
+
+  .menu-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-right: 15px;
+    z-index: 1101; /* ボタンを最前面に */
+    padding: 10px;
+  }
+
+  /* スマホ用ヘッダーバー内のタイトルデザイン */
+  .mobile-app-title {
+    font-size: 22px;         /* サイズを大きく */
+    font-weight: bold;        /* かなり太めに（ボールド） */
+    letter-spacing: 1px;     /* 文字の間を少し開けてロゴっぽく */
+    color: #ffffff;          /* 白を維持 */
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* シュッとしたフォントに */
+  
+    /* 炎の絵文字とテキストのバランス調整 */
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* 軽く影をつけて立体感を出す */
+  }
+
+  /* 背景を暗くする幕 */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 950;
+  }
+
+  .overlay.active {
+    display: block;
+  }
+}
+
+.detail-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.detail-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 500px;
+  width: 100%;
+}
+.detail-image {
+  width: 100%;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+/* 投稿者情報のスタイル */
+.post-author {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 5px;
+}
+
+/* ボタンコンテナ：余白を均等に */
+.action-buttons-container {
+  margin-top: 30px;
+  padding: 10px 0;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around; /* これで左右の余白が均等になります */
+  align-items: center;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* ボタンとラベルの距離 */
+}
+
+/* 丸いボタンの共通スタイル */
+.round-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; /* 正円にする */
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none; /* aタグ用 */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.round-btn:hover {
+  transform: scale(1.1);
+}
+
+.icon {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+/* 肯定：青系（信頼感のある色） */
+.btn-confirm {
+  background-color: #3498db;
+}
+.btn-confirm:hover {
+  background-color: #2980b9;
+}
+
+/* 否定：赤・オレンジ系（警告・拒否の色） */
+.btn-cancel {
+  background-color: #e74c3c;
+}
+.btn-cancel:hover {
+  background-color: #c0392b;
+}
+
+/* ボタンの下の文字 */
+.btn-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #34495e;
+}
+
+/* 解決済みメッセージのエリア */
+.resolved-message {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #7f8c8d;
+  color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.contact-text {
+  font-size: 0.95rem;
+  color: #2c3e50;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn-back {
+  display: inline-block;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+  border: 1px solid #3498db;
+  padding: 8px 20px;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #3498db;
+  color: white;
+}
