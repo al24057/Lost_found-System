@@ -45,6 +45,7 @@ class Post(models.Model):
     ]
     
     FLOOR_CHOICES = [
+        ('basement', '地下1階'),
         ('first', '1階'),
         ('second', '2階'),
         ('third', '3階'),
@@ -67,14 +68,14 @@ class Post(models.Model):
     color = models.CharField(max_length=20, choices=COLOR_CHOICES)
     
     location = models.CharField(max_length=50, choices=LOCATION_CHOICE)
-    floor = models.CharField(max_length=10, choices=FLOOR_CHOICES, blank=True, null=True)
+    floor = models.CharField(max_length=15, choices=FLOOR_CHOICES, blank=True, null=True)
     
     location_detail = models.CharField(max_length=100, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     
     status = models.CharField(choices=[('open', '未解決'), ('resolved', '解決済')], default='open')
-    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="resolved_posts")
+    resolved_by = models.ManyToManyField(User, blank=True, related_name="applied_posts", verbose_name="申請したユーザー一覧")
     resolved_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):

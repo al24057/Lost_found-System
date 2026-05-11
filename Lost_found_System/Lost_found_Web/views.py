@@ -37,10 +37,7 @@ class DetailView(LoginRequiredMixin, View):
         action = request.POST.get('action')
 
         if action == 'resolve':
-            post.status = 'resolved'
-            post.resolved_by = request.user
-            post.resolved_at = timezone.now()
-            post.save()
+            post.resolved_by.add(request.user)
         
         return redirect('Lost_found_Web:home')
     
