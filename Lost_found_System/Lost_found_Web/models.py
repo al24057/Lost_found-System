@@ -13,7 +13,7 @@ class Post(models.Model):
         ('umbrella', '傘'),
         ('stationary', '文房具'),
         ('electronic_device', '電子機器および周辺機器(スマホ、イヤホンなど)'),
-        ('valuable', '貴重品(財布、学生証など)'),
+        ('valuable', '貴重品(財布、鍵など)'),
         ('book', '本(教科書、ノートなど)'),
         ('daily', '日用品(水筒、眼鏡など)'),
         ('other', 'その他'),
