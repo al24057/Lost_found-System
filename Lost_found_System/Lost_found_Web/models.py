@@ -8,7 +8,7 @@ import os
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    image = models.ImageField(upload_to='lost_items/', null=False, blank=False)
+    image = models.ImageField(upload_to='lost_items/', null=True, blank=True)
     ITEM_CHOICES = [
         ('umbrella', '傘'),
         ('stationary', '文房具'),
@@ -75,7 +75,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     status = models.CharField(choices=[('open', '未解決'), ('resolved', '解決済')], default='open')
-    resolved_by = models.ManyToManyField(User, blank=True, related_name="applied_posts", verbose_name="申請したユーザー一覧")
+    applied_by = models.ManyToManyField(User, blank=True, related_name="applied_posts", verbose_name="申請したユーザー一覧")
+    resolved_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="posts_resolved")
     resolved_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):

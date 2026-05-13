@@ -172,17 +172,26 @@ body {
 
 .detail-container {
   display: flex;
-  justify-content: center;
+  gap: 20px;
+  /* 変更: align-itemsをstretchにすることで左右のカードの高さを揃える */
+  align-items: stretch; 
   padding: 20px;
+  max-width: 1200px; /* 全体の最大幅を設定して広がりすぎを防ぐ */
+  margin: 0 auto;    /* 中央寄せ */
+  box-sizing: border-box;
 }
+
 .detail-card {
   background: white;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  flex: 1;           /* 左右の比率を調整（1:1.4 くらいがおすすめ） */
   max-width: 500px;
-  width: 100%;
+  display: flex;
+  flex-direction: column; /* 中身を縦に並べる */
 }
+
 .detail-image {
   width: 100%;
   border-radius: 8px;
@@ -305,4 +314,66 @@ body {
 .btn-back:hover {
   background-color: #3498db;
   color: white;
+}
+
+.map-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  flex: 1.4;         /* マップを少し広めに設定 */
+  position: relative;
+  min-height: 500px; /* 最低限の高さを確保 */
+}
+
+.map-title {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+
+  z-index: 10;
+
+  background: rgba(255,255,255,0.9);
+
+  padding: 8px 14px;
+
+  border-radius: 20px;
+
+  font-weight: bold;
+}
+
+spline-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .detail-container {
+    flex-direction: column;
+    align-items: center; /* 中央に寄せる */
+    padding: 15px;      /* 画面端との隙間を確保 */
+    gap: 15px;
+  }
+
+  .detail-card, .map-card {
+    width: 100%;        /* 画面幅いっぱい(padding除く)に広げる */
+    max-width: 100%;    /* スマホでは最大幅を解除 */
+    box-sizing: border-box; /* パディングを含めた幅計算 */
+  }
+
+  .map-card {
+    height: 400px;      /* スマホでのマップの高さ */
+    min-height: auto;
+  }
+}
+
+.spline-container {
+    width: 100%;
+    height: 100%;    /* 親要素(map-card)の高さに追従させる */
+}
+
+#canvas3d {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;  /* 下部の隙間を消す */
 }

@@ -36,8 +36,8 @@ class DetailView(LoginRequiredMixin, View):
         post = get_object_or_404(Post, pk=pk)
         action = request.POST.get('action')
 
-        if action == 'resolve':
-            post.resolved_by.add(request.user)
+        if action == 'apply':
+            post.applied_by.add(request.user)
         
         return redirect('Lost_found_Web:home')
     
