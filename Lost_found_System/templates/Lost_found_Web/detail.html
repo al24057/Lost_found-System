@@ -8,6 +8,7 @@
   <title>🔥finder</title>
   <link rel="stylesheet" href="{% static 'Lost_found_Web/detail.css' %}">
   <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.92/build/spline-viewer.js"></script>
 </head>
 <body>
 
@@ -50,7 +51,7 @@
         {% endif %}
 
         <div class="detail-info">
-          <p><strong>詳細:</strong> {{ post.item_detail|default:"なし" }}</p>
+          <p><strong>投稿ID:</strong> #{{ post.id }}</p>
           <p><strong>色:</strong> {{ post.get_color_display }}</p>
           <p><strong>場所:</strong> {{ post.get_location_display }} {{ post.get_floor_display|default:"" }}</p>
           <p><strong>具体的な場所:</strong> {{ post.location_detail|default:"なし" }}</p>
@@ -66,15 +67,24 @@
                   <a href="{% url 'Lost_found_Web:home' %}" class="round-btn btn-cancel">
                     <span class="icon">✕</span>
                   </a>
-                  <span class="btn-label">違う</span>
+                  <span class="btn-label">違います(拒否)</span>
                 </div>
 
-                <div class="btn-wrapper">
-                  <button type="submit" name="action" value="resolve" class="round-btn btn-confirm">
-                    <span class="icon">✓</span>
-                  </button>
-                  <span class="btn-label">私のです</span>
-                </div>
+                {% if request.user in post.applied_by.all %}
+                  <div class="btn-wrapper">
+                    <button disabled class="round-btn btn-disabled">
+                      <span class="icon">✓</span>
+                    </button>
+                    <span class="btn-label">申請済みです</span>
+                  </div>
+                {% else %}
+                  <div class="btn-wrapper">
+                    <button type="submit" name="action" value="apply" class="round-btn btn-confirm">
+                      <span class="icon">✓</span>
+                    </button>
+                    <span class="btn-label">私のです(申請)</span>
+                  </div>
+                {% endif %}
               </div>
             </form>
           {% else %}
@@ -89,8 +99,24 @@
           {% endif %}
         </div>
       </div>
+
+      <!-- ===== 3Dマップ追加 ===== -->
+      <div class="map-card">
+
+        <div class="map-title">
+          📍 落とし物の位置
+        </div>
+
+        <div class="spline-container">
+          <canvas id="canvas3d"></canvas>
+        </div>
+      </div>
     </div>
   </div>
-  <script src="{% static 'Lost_found_Web/detail.js' %}"></script>
+  <script>
+    const POST_LOCATION = "{{ post.location }}";
+    const POST_FLOOR = "{{ post.floor|default:'' }}";
+  </script>
+  <script type="module" src="{% static 'Lost_found_Web/detail.js' %}"></script>
 </body>
 </html>
