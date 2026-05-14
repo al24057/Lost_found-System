@@ -11,6 +11,8 @@ function toggleSidebar() {
     overlay.classList.toggle('active');
 }
 
+window.toggleSidebar = toggleSidebar;
+
 /* ========================= */
 /* Spline 初期化 */
 /* ========================= */

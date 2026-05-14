@@ -362,7 +362,7 @@ spline-viewer {
   }
 
   .map-card {
-    height: 400px;      /* スマホでのマップの高さ */
+    height: 600px;      /* スマホでのマップの高さ */
     min-height: auto;
   }
 }
