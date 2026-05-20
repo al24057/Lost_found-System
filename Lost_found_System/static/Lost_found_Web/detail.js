@@ -5,108 +5,90 @@ let targetUrl = '';
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
-
-    // クラスの付け外しで表示・非表示を切り替える
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 }
 
 window.toggleSidebar = toggleSidebar;
 
-/* ========================= */
-/* Spline 初期化 */
-/* ========================= */
 
-const canvas = document.getElementById('canvas3d');
+/* ========================================================= */
+/* M1: 3D表示主処理（全体の司令塔）                             */
+/* ========================================================= */
+function initSplineScene() {
+    const canvas = document.getElementById('canvas3d');
+    const app = new Application(canvas);
 
-const app = new Application(canvas);
+    app.load('https://prod.spline.design/aQ2AgVnX5F8V4UIN/scene.splinecode')
+        .then(() => {
+            console.log("Spline読み込み成功");
+            
+            const prefix = generateTargetPrefix();
+            const allHighlights = [];
+            searchObjects(app._scene, allHighlights);
+            controlBlinkTargets(allHighlights, prefix);
 
-app.load('https://prod.spline.design/aQ2AgVnX5F8V4UIN/scene.splinecode')
-.then(() => {
+            app.setVariable('show_target', true);
+            console.log("Variable ON");
+        })
+        // ★ここから下のエラー処理を追加します！
+        .catch((error) => {
+            console.error("Spline読み込み失敗:", error); // コンソールにログを出す
+            
+            // HTMLに用意したエラーメッセージの枠を見えるようにする
+            const errorView = document.getElementById('map-error-message');
+            if (errorView) {
+                errorView.style.display = 'block';
+            }
+        });
+}
 
-    console.log("Spline読み込み成功");
-
-    /* ========================= */
-    /* 対象prefix生成 */
-    /* ========================= */
-
+/* ========================================================= */
+/* M2: 検索条件生成処理                                       */
+/* ========================================================= */
+function generateTargetPrefix() {
     let prefix = `highlight_${POST_LOCATION}`;
-
     if (POST_FLOOR) {
         prefix += `_${POST_FLOOR}`;
     }
+    return prefix;
+}
 
-    console.log(prefix);
-
-    console.log(POST_LOCATION);
-    console.log(POST_FLOOR);
-    console.log(prefix);
-
-    /* ========================= */
-    /* 全highlight取得 */
-    /* ========================= */
-
-    const allHighlights = [];
-
-    function searchObjects(obj) {
-
-        /* 名前がある場合 */
-        if (obj.name) {
-
-            console.log(obj.name);
-
-            /* highlight_で始まるものを保存 */
-            if (obj.name.startsWith('highlight_')) {
-                allHighlights.push(obj);
-            }
-        }
-
-        /* 子オブジェクト再帰探索 */
-        if (obj.children) {
-            obj.children.forEach(child => {
-                searchObjects(child);
-            });
+/* ========================================================= */
+/* M3: 3Dオブジェクト探索処理                                 */
+/* ========================================================= */
+function searchObjects(obj, list) {
+    if (obj.name) {
+        console.log(obj.name); // 既存のログ出力を残す場合
+        if (obj.name.startsWith('highlight_')) {
+            list.push(obj);
         }
     }
+    if (obj.children) {
+        obj.children.forEach(child => searchObjects(child, list));
+    }
+}
 
-    searchObjects(app._scene);
-
-    console.log(allHighlights);
-
-    /* ========================= */
-    /* 一旦全部非表示 */
-    /* ========================= */
-
+/* ========================================================= */
+/* M4: 点滅対象制御処理                                       */
+/* ========================================================= */
+function controlBlinkTargets(allHighlights, prefix) {
+    // 一旦全部非表示
     allHighlights.forEach(obj => {
-
         obj.visible = false;
         obj.enabled = false;
-
     });
 
-    /* ========================= */
-    /* 対象だけ表示 */
-    /* ========================= */
-
-    const targets = allHighlights.filter(obj =>
-        obj.name.startsWith(prefix)
-    );
-
-    console.log(targets);
+    // 対象だけ抽出して表示
+    const targets = allHighlights.filter(obj => obj.name.startsWith(prefix));
+    console.log("ターゲットオブジェクト:", targets);
 
     targets.forEach(obj => {
-
         obj.visible = true;
         obj.enabled = true;
-
     });
+}
 
-    /* ========================= */
-    /* 点滅開始 */
-    /* ========================= */
 
-    app.setVariable('show_target', true);
-
-    console.log("Variable ON");
-
-});
+// 最後に、この画面が開かれた時に司令塔（M1）をスタートさせる
+initSplineScene();

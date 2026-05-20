@@ -21,13 +21,3 @@ function closeModal() {
 function goDetail() {
   window.location.href = targetUrl;
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    const toggle = document.getElementById('status-toggle');
-    if (toggle) {
-        toggle.addEventListener('change', function() {
-            const status = this.checked ? 'resolved' : 'open';
-            window.location.href = `?status=${status}`;
-        });
-    }
-});
