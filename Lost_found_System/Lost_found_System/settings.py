@@ -79,7 +79,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 SOCIALACCOUNT_LOGIN_REDIRECT_URL = "/"
 
-SOCIALACCOUNT_ADAPTER = "Lost_found_Web.adapter.MySocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "Lost_found_Web.services.adapter.MySocialAccountAdapter"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

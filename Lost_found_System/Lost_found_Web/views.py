@@ -3,19 +3,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Post, PostView
 from django.utils import timezone
-from datetime import timedelta
+from django.http import HttpResponse
 
 class IndexView(LoginRequiredMixin, View):
-    def get(self, request):
-        expired_date = timezone.now() - timedelta(days=14)
-        Post.objects.filter(status='resolved', resolved_at__lte=expired_date).delete()
-        status_filter = request.GET.get('status', 'open')
-        if status_filter == 'resolved':
-            sort_order = '-resolved_at'
-        else:
-            sort_order = '-created_at'
-        posts = Post.objects.filter(status=status_filter).order_by(sort_order)
-        return render(request, "Lost_found_Web/index.html", {'posts':posts, 'current_status': status_filter})
+    def get(self, request):       
+        posts = Post.objects.filter(status='open').order_by('-created_at')
+        return render(request, "Lost_found_Web/index.html", {'posts':posts})
     
 class DetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
@@ -37,6 +30,13 @@ class DetailView(LoginRequiredMixin, View):
         action = request.POST.get('action')
 
         if action == 'apply':
+            if post.status == 'resolved':
+                return HttpResponse('''
+                    <script>
+                        alert("この投稿は既に解決済みのため、申請できません。");
+                        window.location.href = "/";
+                    </script>
+                ''')
             post.applied_by.add(request.user)
         
         return redirect('Lost_found_Web:home')
