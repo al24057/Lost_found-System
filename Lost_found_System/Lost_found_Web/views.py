@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.http import HttpResponse
 
 class IndexView(LoginRequiredMixin, View):
-    def get(self, request):       
-        posts = Post.objects.filter(status='open').order_by('-created_at')
+    def get(self, request):     
+        posts = Post.objects.filter(status='open').order_by('created_at')
         return render(request, "Lost_found_Web/index.html", {'posts':posts})
     
 class DetailView(LoginRequiredMixin, View):
