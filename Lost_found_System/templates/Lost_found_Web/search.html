@@ -158,16 +158,20 @@
 
   <div id="modal" class="modal">
     <div class="modal-content warning">
-      <div class="warning-title" style="font-weight: bold; color: #e74c3c; font-size: 18px; margin-bottom: 10px;">⚠️【警告】</div>
-      <p class="warning-text" style="font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px;">
+
+      <div class="warning-title">⚠️【警告】</div>
+
+      <p class="warning-text">
         この投稿の詳細には、落とし物に関する情報や個人情報が含まれる場合があります。<br>
         内容をご確認のうえご覧ください。<br>
         なお、本システムでは運用管理のため閲覧履歴が記録されており、必要に応じて管理者からご連絡させていただく場合があります。
       </p>
-      <div class="modal-buttons" style="display: flex; justify-content: flex-end; gap: 10px;">
-        <button class="btn cancel" onclick="closeModal()" style="padding: 10px 20px; border: 1px solid #dee2e6; background: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; color: #7f8c8d;">キャンセル</button>
-        <button class="btn confirm" onclick="goDetail()" style="padding: 10px 20px; border: none; background: #e74c3c; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">確認する</button>
+
+      <div class="modal-buttons">
+        <button class="btn cancel" onclick="closeModal()">キャンセル</button>
+        <button class="btn confirm" onclick="goDetail()">確認する</button>
       </div>
+
     </div>
   </div>
 
