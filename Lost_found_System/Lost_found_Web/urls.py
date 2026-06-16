@@ -9,5 +9,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('history/', views.history, name='history'),
     path('post/edit/<int:pk>/', views.post, name='post_edit'),
-    path('post/analyze/', views.analyze, name='analyze_image'),
+    path('post/analyze/', views.post, name='analyze_image'),
 ]

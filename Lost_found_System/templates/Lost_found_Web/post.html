@@ -37,7 +37,7 @@
     </div>
 
     <div class="content-container">
-      <h2>新規投稿</h2>
+      <h2>{% if form.instance.pk%}編集{% else %}新規投稿{% endif %}</h2>
 
       <form method="POST" enctype="multipart/form-data" class="post-form">
         {% csrf_token %}
