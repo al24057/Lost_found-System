@@ -2,12 +2,174 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥finder</title>
-<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥finder - 検索</title>
+  
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/search.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  
+  <script src="{% static 'Lost_found_Web/search.js' %}" defer></script>
 </head>
 <body>
-<h1>検索ページ</h1>
+
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="app-title">🔥finder</div>
+    
+    <div class="menu">
+      <div class="menu-item user">
+        {{ user.username }} 
+      </div>
+      <a href="{% url 'Lost_found_Web:home' %}">ホーム</a>
+      <a href="{% url 'Lost_found_Web:post' %}">投稿</a>
+      <a href="{% url 'Lost_found_Web:search' %}" class="active" style="background-color: rgba(255,255,255,0.1);">検索</a>
+      <a href="{% url 'Lost_found_Web:history' %}">履歴</a>
+    </div>
+
+    <a href="{% url 'account_logout' %}" class="logout-btn">ログアウト</a>
+  </div>
+
+  <div class="main">
+    <div class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="mobile-app-title">🔥finder</span>
+    </div>
+    
+    <h1 class="board-title">🔍 条件を指定して探す</h1>
+
+    <div class="search-container">
+        <form method="get" action="{% url 'Lost_found_Web:search' %}">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label for="item-select">カテゴリー</label>
+                    <select name="item" id="item-select">
+                        <option value="all" {% if query_params.item == 'all' %}selected{% endif %}>指定なし（すべて）</option>
+                        <option value="umbrella" {% if query_params.item == 'umbrella' %}selected{% endif %}>傘</option>
+                        <option value="stationary" {% if query_params.item == 'stationary' %}selected{% endif %}>文房具</option>
+                        <option value="electronic_device" {% if query_params.item == 'electronic_device' %}selected{% endif %}>電子機器および周辺機器</option>
+                        <option value="valuable" {% if query_params.item == 'valuable' %}selected{% endif %}>貴重品</option>
+                        <option value="book" {% if query_params.item == 'book' %}selected{% endif %}>本</option>
+                        <option value="daily" {% if query_params.item == 'daily' %}selected{% endif %}>日用品</option>
+                        <option value="other" {% if query_params.item == 'other' %}selected{% endif %}>その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="color-select">カラー</label>
+                    <select name="color" id="color-select">
+                        <option value="all" {% if query_params.color == 'all' %}selected{% endif %}>指定なし（すべて）</option>
+                        <option value="red" {% if query_params.color == 'red' %}selected{% endif %}>赤</option>
+                        <option value="blue" {% if query_params.color == 'blue' %}selected{% endif %}>青</option>
+                        <option value="black" {% if query_params.color == 'black' %}selected{% endif %}>黒</option>
+                        <option value="white" {% if query_params.color == 'white' %}selected{% endif %}>白</option>
+                        <option value="gray" {% if query_params.color == 'gray' %}selected{% endif %}>灰</option>
+                        <option value="brown" {% if query_params.color == 'brown' %}selected{% endif %}>茶</option>
+                        <option value="orange" {% if query_params.color == 'orange' %}selected{% endif %}>橙</option>
+                        <option value="yellow" {% if query_params.color == 'yellow' %}selected{% endif %}>黄</option>
+                        <option value="yellow_green" {% if query_params.color == 'yellow_green' %}selected{% endif %}>黄緑</option>
+                        <option value="green" {% if query_params.color == 'green' %}selected{% endif %}>緑</option>
+                        <option value="light_blue" {% if query_params.color == 'light_blue' %}selected{% endif %}>水色</option>
+                        <option value="purple" {% if query_params.color == 'purple' %}selected{% endif %}>紫</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location-select">拾得場所</label>
+                    <select name="location" id="location-select">
+                        <option value="all" {% if query_params.location == 'all' %}selected{% endif %}>指定なし（すべて）</option>
+                        <option value="outdoor" {% if query_params.location == 'outdoor' %}selected{% endif %}>屋外</option>
+                        <option value="classroom_building" {% if query_params.location == 'classroom_building' %}selected{% endif %}>教室棟</option>
+                        <option value="headquarters_building" {% if query_params.location == 'headquarters_building' %}selected{% endif %}>本部棟</option>
+                        <option value="exchange_building" {% if query_params.location == 'exchange_building' %}selected{% endif %}>交流棟</option>
+                        <option value="research_building" {% if query_params.location == 'research_building' %}selected{% endif %}>研究棟</option>
+                        <option value="community_space" {% if query_params.location == 'community_space' %}selected{% endif %}>有元史郎記念校友会館交流プラザ</option>
+                        <option value="other" {% if query_params.location == 'other' %}selected{% endif %}>その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="floor-select">階層</label>
+                    <select name="floor" id="floor-select">
+                        <option value="all" {% if query_params.floor == 'all' %}selected{% endif %}>指定なし（すべて）</option>
+                        <option value="basement" {% if query_params.floor == 'basement' %}selected{% endif %}>地下1階</option>
+                        <option value="first" {% if query_params.floor == 'first' %}selected{% endif %}>1階</option>
+                        <option value="second" {% if query_params.floor == 'second' %}selected{% endif %}>2階</option>
+                        <option value="third" {% if query_params.floor == 'third' %}selected{% endif %}>3階</option>
+                        <option value="fourth" {% if query_params.floor == 'fourth' %}selected{% endif %}>4階</option>
+                        <option value="fifth" {% if query_params.floor == 'fifth' %}selected{% endif %}>5階</option>
+                        <option value="sixth" {% if query_params.floor == 'sixth' %}selected{% endif %}>6階</option>
+                        <option value="seventh" {% if query_params.floor == 'seventh' %}selected{% endif %}>7階</option>
+                        <option value="eighth" {% if query_params.floor == 'eighth' %}selected{% endif %}>8階</option>
+                        <option value="ninth" {% if query_params.floor == 'ninth' %}selected{% endif %}>9階</option>
+                        <option value="tenth" {% if query_params.floor == 'tenth' %}selected{% endif %}>10階</option>
+                        <option value="eleventh" {% if query_params.floor == 'eleventh' %}selected{% endif %}>11階</option>
+                        <option value="twelveth" {% if query_params.floor == 'twelveth' %}selected{% endif %}>12階</option>
+                        <option value="thirteenth" {% if query_params.floor == 'thirteenth' %}selected{% endif %}>13階</option>
+                        <option value="fourteenth" {% if query_params.floor == 'fourteenth' %}selected{% endif %}>14階</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="search-submit-btn">🔍 この条件で検索する</button>
+        </form>
+    </div>
+
+    <div class="section-title">検索結果一覧</div>
+
+    {% if not is_searched %}
+        <p class="info-text">上の条件を選択し、「検索する」ボタンを押すと結果が表示されます。</p>
+    {% else %}
+        {% if posts %}
+            <div id="search-results-wrapper">
+                {% for post in posts %}
+                    <div class="post" onclick="openConfirm('{% url 'Lost_found_Web:detail' post.id %}', '{% if post.item_detail %}{{ post.item_detail }}{% else %}なし{% endif %}')">
+                        <div class="post-header">
+                            <span class="post-user">
+                                👤 {{ post.user.username }}
+                            </span>
+                             <span class="post-time">
+                                📅 投稿日: {{ post.created_at|date:"Y-m-d H:i" }}
+                            </span>
+                         </div>
+          
+                        <div class="post-body">
+                            <div class="post-tags">
+                                <span class="tag">
+                                    物 : {{ post.get_item_display }}
+                                </span>
+                                <span class="tag">
+                                    色 : {{ post.get_color_display }}
+                                </span>
+                            </div>
+                            <p class="post-location">
+                                  📍 {{ post.get_location_display }}{% if post.floor %}（{{ post.get_floor_display }}）{% endif %}
+                            </p>
+                        </div>
+          
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="info-text">該当する未解決の落とし物は見つかりませんでした。</p>
+        {% endif %}
+    {% endif %}
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content warning">
+      <div class="warning-title" style="font-weight: bold; color: #e74c3c; font-size: 18px; margin-bottom: 10px;">⚠️【警告】</div>
+      <p class="warning-text" style="font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px;">
+        この投稿の詳細には、落とし物に関する情報や個人情報が含まれる場合があります。<br>
+        内容をご確認のうえご覧ください。<br>
+        なお、本システムでは運用管理のため閲覧履歴が記録されており、必要に応じて管理者からご連絡させていただく場合があります。
+      </p>
+      <div class="modal-buttons" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn cancel" onclick="closeModal()" style="padding: 10px 20px; border: 1px solid #dee2e6; background: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; color: #7f8c8d;">キャンセル</button>
+        <button class="btn confirm" onclick="goDetail()" style="padding: 10px 20px; border: none; background: #e74c3c; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">確認する</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
