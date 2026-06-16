@@ -5,7 +5,7 @@ from .models import Post, PostView
 from django.utils import timezone
 from django.http import HttpResponse
 from .services.search import search as search_logic
-from .detail import PostSearcher, register_application, browsing_history_save
+from .services.detail import PostSearcher, register_application, browsing_history_save
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):       
