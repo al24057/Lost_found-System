@@ -2,6 +2,7 @@ from allauth.socialaccount.signals import pre_social_login, social_account_added
 from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.core.exceptions import PermissionDenied
+from .user_composition import RegisterUser, DeleteUser
 
 # ② ユーザ名生成（保存後に安全に実行）
 @receiver(user_signed_up)
@@ -23,7 +24,7 @@ def set_username(sender, request, user, **kwargs):
         i += 1
 
     user.username = username
-    user.save()
+    RegisterUser(user)
 
 
 # ✔ 通常登録を禁止（超重要）
@@ -31,5 +32,5 @@ def set_username(sender, request, user, **kwargs):
 def block_non_google_signup(request, user, **kwargs):
     # socialaccountが無い = 通常登録
     if not user.socialaccount_set.exists():
-        user.delete()
+        DeleteUser(user)
         raise PermissionDenied("Googleログインのみ許可されています")

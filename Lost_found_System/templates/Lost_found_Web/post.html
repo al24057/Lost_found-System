@@ -1,13 +1,88 @@
+<!-- index.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥finder</title>
-<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥finder</title>
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/post.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
-<h1>投稿ページ</h1>
+
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="app-title">🔥finder</div>
+
+    <div class="menu">
+      <div class="menu-item user">
+        {{ user.username }}
+      </div>
+
+      <a href={% url 'Lost_found_Web:home' %}>ホーム</a>
+      <a href={% url 'Lost_found_Web:post' %}>投稿</a>
+      <a href={% url 'Lost_found_Web:search' %}>検索</a>
+      <a href={% url 'Lost_found_Web:history' %}>履歴</a>
+    </div>
+
+    <a href="{% url 'account_logout' %}" class="logout-btn">ログアウト</a>
+  </div>
+
+  <div class="main">
+    <div class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="mobile-app-title">finder</span>
+    </div>
+
+    <div class="content-container">
+      <h2>{% if form.instance.pk%}編集{% else %}新規投稿{% endif %}</h2>
+
+      <form method="POST" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+
+        {% if form.errors %}
+          <div class="form-errors">
+            <p>入力内容にエラーがあります。確認してください。</p>
+          </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label class="form-label" for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+          <div class="form-control-wrapper">
+            {{ form.image }}
+          </div>
+          
+          <div class="image-preview-container">
+            <img id="image-preview" src="" alt="選択された画像" style="display: none;" />
+            <button type="button" id="analysis-btn" class="analysis-btn" style="display: none;">解析</button>
+          </div>
+          
+          {% if form.image.errors %}<span class="field-error">{{ form.image.errors.0 }}</span>{% endif %}
+        </div>
+
+        {% for field in form %}
+          {% if field.name != 'image' %}
+            <div class="form-group">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              <div class="form-control-wrapper">
+                {{ field }}
+              </div>
+              {% if field.help_text %}<small class="form-help">{{ field.help_text }}</small>{% endif %}
+              {% if field.errors %}<span class="field-error">{{ field.errors.0 }}</span>{% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+
+        <button type="submit" class="submit-btn">
+          {% if form.instance.pk%}更新する{% else %}投稿する{% endif %}
+        </button>
+      </form>
+    </div>
+
+  </div>
+  <script src="{% static 'Lost_found_Web/post.js' %}"></script>
 </body>
 </html>
