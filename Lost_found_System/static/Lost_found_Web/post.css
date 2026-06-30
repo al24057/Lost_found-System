@@ -1,0 +1,309 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 220px;
+  background-color: #2C3E50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100%;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* タイトル */
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 1px solid #34495E;
+}
+
+/* メニュー全体 */
+.menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ユーザ名 */
+.menu-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #34495E;
+  color: #BDC3C7;
+}
+
+.menu-item.user {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  background-color: #34495E;
+}
+
+/* メニューリンク */
+.menu a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background-color: #34495E;
+}
+
+/* ログアウト */
+.logout-btn {
+  padding: 15px 20px;
+  border-top: 1px solid #34495E;
+  color: #E74C3C;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  background-color: #34495E;
+}
+
+/* ==========================================================
+   メインエリア（homes.cssベースの背景色・レイアウトを統合）
+   ========================================================== */
+.main {
+  padding: 20px;
+  background-color: #ecf0f1; /* ホームと同じ薄いグレー */
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 650px;         /* フォームの max-width と合わせる */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 新規投稿タイトル */
+.content-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  border-left: 6px solid #3498db;
+  padding: 10px 10px 10px 15px;
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   フォーム全体のカードスタイル
+   ========================================================== */
+.post-form {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  max-width: 650px; /* 入力欄が横に広がりすぎないように制限 */
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 各入力項目の縦並び設定 */
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ラベルのフォント */
+.form-label {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+/* 入力エリア（テキスト、セレクトボックス、テキストエリア）のフォント・デザイン */
+.post-form input[type="text"],
+.post-form select,
+.post-form textarea {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  color: #2c3e50;
+  padding: 10px 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  width: 100%;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 入力欄にフォーカスが当たったとき */
+.post-form input[type="text"]:focus,
+.post-form select:focus,
+.post-form textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* 投稿ボタン */
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background-color: #2980b9;
+}
+
+/* ==========================================================
+   ★今回の本題：画像プレビュー & 解析ボタンのサイズ固定
+   ========================================================== */
+.image-preview-container {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* プレビュー画像を縦横最大150pxに強制制限 */
+#image-preview {
+  max-width: 150px !important;
+  max-height: 150px !important;
+  width: 150px;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #bdc3c7;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* 解析ボタンの見た目 */
+.analysis-btn {
+  padding: 6px 14px;
+  background-color: #2ecc71; /* 緑色 */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.analysis-btn:hover {
+  background-color: #27ae60;
+}
+
+/* ==========================================================
+   レスポンシブ対応
+   ========================================================== */
+/* 1. PCの場合の設定 */
+@media (min-width: 769px) {
+  .main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+  .mobile-header, .overlay {
+    display: none;
+  }
+}
+
+/* 2. スマホの場合の設定 */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 70px;
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #2C3E50;
+    color: white;
+    padding: 0 15px;
+    z-index: 1100;
+    box-sizing: border-box;
+  }
+
+  .menu-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-right: 15px;
+    z-index: 1101;
+    padding: 10px;
+  }
+
+  .mobile-app-title {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 950;
+  }
+  
+  .overlay.active {
+    display: block;
+  }
+}
