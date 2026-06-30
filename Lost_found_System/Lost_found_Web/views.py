@@ -80,9 +80,6 @@ class PostPageView(LoginRequiredMixin, View):#投稿ページ
             return redirect('Lost_found_Web:home')
         return render(request, "Lost_found_Web/post.html", {'form': form})
 
-    # ==========================================================
-    # 💡 修正：独立した関数にせず、既存のクラス内メソッドとして定義
-    # ==========================================================
     def analyze_image(self, request):
         if request.method == 'POST' and request.FILES.get('image'):
             image_file = request.FILES['image']
