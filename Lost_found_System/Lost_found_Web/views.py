@@ -7,29 +7,30 @@ from django.http import HttpResponse, JsonResponse
 from .services.history import Checkhistory
 from .forms import PostForm
 from .services.image_analy import analyze_uploaded_image
+from .services.search import search as search_logic
+from .services.detail import PostSearcher, register_application, browsing_history_save
 
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):       
-        posts = Post.objects.filter(status='open').order_by('-created_at') #この場所の関数を作らなければいけない(返り値が必要)
-        return render(request, "Lost_found_Web/index.html", {'posts':posts})
+       # text='-created_at' を定義して get_open_posts に渡す
+        text = '-created_at'      
+        posts = PostSearcher.get_open_posts(text=text)
+        return render(request, "Lost_found_Web/index.html", {'posts': posts})
+    
     
 class DetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
-        #ここから
-        obj, created = PostView.objects.get_or_create(
-            user=request.user,
-            post=post
-        )
-
-        if not created:
-            obj.viewed_at = timezone.now()
-            obj.save()
-        #ここまでで必要なのをやる
+        post = PostSearcher.get_post_by_id(pk=pk)
+        
+       # user=request.user を定義して M5-8-3 に引き渡す
+        user = request.user
+        browsing_history_save(user=user, post=post)
+        
         return render(request, "Lost_found_Web/detail.html", {'post': post})
     
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+       # M5-8-1 (get_post_by_idメソッド) で投稿を取得
+        post = PostSearcher.get_post_by_id(pk=pk)
         action = request.POST.get('action')
 
         if action == 'apply':
@@ -40,8 +41,10 @@ class DetailView(LoginRequiredMixin, View):
                         window.location.href = "/";
                     </script>
                 ''')
-            #ここもやる
-            post.applied_by.add(request.user)
+            
+            # user=request.user を定義して M5-8-2 に引き渡す
+            user = request.user
+            register_application(user=user, post=post)
         
         return redirect('Lost_found_Web:home')
     
@@ -98,7 +101,33 @@ class PostPageView(LoginRequiredMixin, View):#投稿ページ
     
 class SearchView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, "Lost_found_Web/search.html")
+        # 1. 画面（URLのクエリパラメータ）から検索条件をゲットする
+        item = request.GET.get('item', 'all')
+        color = request.GET.get('color', 'all')
+        location = request.GET.get('location', 'all')
+        floor = request.GET.get('floor', 'all')
+
+        # 2. ボタンが押された（検索が実行された）かどうかを判定
+        # 何かしら条件が指定されている、またはクエリパラメータが存在する場合
+        is_searched = any(k in request.GET for k in ['item', 'color', 'location', 'floor'])
+
+        posts = []
+        if is_searched:
+            # 3. せっかくインポートしてある search.py のロジックをここで呼び出す！
+            posts = search_logic(item=item, color=color, location=location, floor=floor)
+
+        # 4. テンプレート（search.html）に結果と、選んだ条件をセットして返す
+        context = {
+            'posts': posts,
+            'is_searched': is_searched,
+            'query_params': {
+                'item': item,
+                'color': color,
+                'location': location,
+                'floor': floor,
+            }
+        }
+        return render(request, "Lost_found_Web/search.html", context)
     
 #確認主処理
 class HistoryView(LoginRequiredMixin, View):
