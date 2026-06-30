@@ -4,16 +4,19 @@ from django.views import View
 from .models import Post, PostView
 from django.utils import timezone
 from django.http import HttpResponse
+from .services.history import Checkhistory
 
 class IndexView(LoginRequiredMixin, View):
-    def get(self, request):     
-        posts = Post.objects.filter(status='open').order_by('created_at')
+    def get(self, request):  
+        #ここの関数を作る     
+        posts = Post.objects.filter(status='open').order_by('-created_at')
+        #h
         return render(request, "Lost_found_Web/index.html", {'posts':posts})
     
 class DetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        
+        #ここから
         obj, created = PostView.objects.get_or_create(
             user=request.user,
             post=post
@@ -22,7 +25,7 @@ class DetailView(LoginRequiredMixin, View):
         if not created:
             obj.viewed_at = timezone.now()
             obj.save()
-        
+        #ここまでで必要なのをやる
         return render(request, "Lost_found_Web/detail.html", {'post': post})
     
     def post(self, request, pk):
@@ -37,21 +40,28 @@ class DetailView(LoginRequiredMixin, View):
                         window.location.href = "/";
                     </script>
                 ''')
+            #ここもやる
             post.applied_by.add(request.user)
         
         return redirect('Lost_found_Web:home')
     
 class PostPageView(LoginRequiredMixin, View):
     def get(self, request):
+        
+
         return render(request, "Lost_found_Web/post.html")
     
 class SearchView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "Lost_found_Web/search.html")
     
+#確認主処理
 class HistoryView(LoginRequiredMixin, View):
+    
     def get(self, request):
-        return render(request, "Lost_found_Web/history.html")
+        history = Checkhistory()
+        historydata = history.getuserid(request.user)
+        return render(request, "Lost_found_Web/history.html", {'historydata': historydata})
     
     
 index = IndexView.as_view()
