@@ -6,7 +6,7 @@ from ultralytics import YOLO
 
 # 💡 追加：ベースディレクトリ（Lost_found_Web の場所）を取得し、モデルの絶対パスを作成
 BASE_DIR = Path(__file__).resolve().parent.parent  # Lost_found_Web ディレクトリを指します
-MODEL_PATH = os.path.join(BASE_DIR, 'services', 'yolo26s_best.pt')
+MODEL_PATH = os.path.join(BASE_DIR, 'ml_models', 'yolo26s_best.pt')
 
 # 1. モデルの読み込み（絶対パスで指定）
 # model = YOLO('yolo26s_best.pt')
