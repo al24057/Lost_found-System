@@ -2,12 +2,89 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥finder</title>
-<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥finder - 履歴</title>
+  <link rel="stylesheet" href="{% static 'Lost_found_Web/history.css' %}?v=3">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
-<h1>履歴ページ</h1>
+
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="app-title">🔥finder</div>
+    
+    <div class="menu">
+      <div class="menu-item user">
+        {{ user.username }} 
+      </div>
+      <a href="{% url 'Lost_found_Web:home' %}">ホーム</a>
+      <a href="{% url 'Lost_found_Web:post' %}">投稿</a>
+      <a href="{% url 'Lost_found_Web:search' %}">検索</a>
+      <a href="{% url 'Lost_found_Web:history' %}">履歴</a>
+    </div>
+
+    <a href="{% url 'account_logout' %}" class="logout-btn">ログアウト</a>
+  </div>
+
+  <div class="main">
+    
+    <div class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <span class="mobile-app-title">🔥finder</span>
+    </div>
+
+    <h1 class="board-title">閲覧履歴</h1>
+
+    {% for i in historydata %}
+    <div class="post">
+      
+      <div class="post-header">
+        <span class="post-user">👤 ユーザーID: {{ i.user_id }}</span>
+      </div>
+
+      <div class="post-body" style="display: flex; gap: 15px; align-items: center; justify-content: space-between; width: 100%;">
+
+        <div class="post-info" style="flex: 1;">
+          <div class="post-tags">
+            <span class="tag">物：{{ i.get_item_display }}</span>
+            <span class="tag">色：{{ i.get_color_display }}</span>
+          </div>
+
+          <p class="post-location" style="margin-bottom: 5px;">
+            ℹ️ 詳細：{{ i.item_detail }}
+          </p>
+
+          <p class="post-location">
+            📍 場所：{{ i.get_location_display }}
+            {% if i.floor %}
+              ({{ i.get_floor_display }})
+            {% endif %}
+          </p>
+
+          {% if i.location_detail %}
+          <p class="post-location" style="font-size: 13px; color: #7f8c8d; margin-top: 2px;">
+            ┗ 詳しい場所：{{ i.location_detail }}
+          </p>
+          {% endif %}
+        </div>
+       
+        <div class="post-right-content" style="flex-shrink: 0; width: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-left: 15px;">
+          {% if i.image %}
+            <img src="{{ i.image.url }}" alt="item image" class="detail-image">
+          {% endif %}
+        <a href="{% url 'Lost_found_Web:post_edit' i.pk %}" class="edit-btn">
+          編集
+        </a>
+        </div> </div> </div> {% empty %}
+    <div class="post" style="border-left: 5px solid #7f8c8d;">
+      <p class="post-location">履歴はまだありません。</p>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <script src="{% static 'Lost_found_Web/history.js' %}"></script>
 </body>
 </html>

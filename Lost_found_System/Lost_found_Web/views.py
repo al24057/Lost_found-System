@@ -4,9 +4,8 @@ from django.views import View
 from .models import Post, PostView
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
+from .services.history import Checkhistory
 from .forms import PostForm
-
-# 💡 変更：新しく作成したサービス関数のみをインポート（tempfileやos, detect_lost_item はビューから削除）
 from .services.image_analy import analyze_uploaded_image
 
 class IndexView(LoginRequiredMixin, View):
@@ -17,7 +16,7 @@ class IndexView(LoginRequiredMixin, View):
 class DetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        
+        #ここから
         obj, created = PostView.objects.get_or_create(
             user=request.user,
             post=post
@@ -26,7 +25,7 @@ class DetailView(LoginRequiredMixin, View):
         if not created:
             obj.viewed_at = timezone.now()
             obj.save()
-        
+        #ここまでで必要なのをやる
         return render(request, "Lost_found_Web/detail.html", {'post': post})
     
     def post(self, request, pk):
@@ -41,6 +40,7 @@ class DetailView(LoginRequiredMixin, View):
                         window.location.href = "/";
                     </script>
                 ''')
+            #ここもやる
             post.applied_by.add(request.user)
         
         return redirect('Lost_found_Web:home')
@@ -100,9 +100,13 @@ class SearchView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "Lost_found_Web/search.html")
     
+#確認主処理
 class HistoryView(LoginRequiredMixin, View):
+    
     def get(self, request):
-        return render(request, "Lost_found_Web/history.html")
+        history = Checkhistory()
+        historydata = history.getuserid(request.user)
+        return render(request, "Lost_found_Web/history.html", {'historydata': historydata})
     
 index = IndexView.as_view()
 detail = DetailView.as_view()
