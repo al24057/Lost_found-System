@@ -5,7 +5,7 @@ from ..models import Post
 #確認情報管理部
 class findinfo:
     def findhistory(self, historyID: int) -> list[Post]:
-        historydata = Post.objects.filter(user_id=historyID)
+        historydata = Post.objects.filter(user_id=historyID).order_by('-created_at')
         return historydata
     
     def finddetail(self, historyID: int) -> list[Post]:
