@@ -1,18 +1,3 @@
-import os
-from pathlib import Path
-import cv2
-import numpy as np
-from ultralytics import YOLO
-
-# 💡 追加：ベースディレクトリ（Lost_found_Web の場所）を取得し、モデルの絶対パスを作成
-BASE_DIR = Path(__file__).resolve().parent.parent  # Lost_found_Web ディレクトリを指します
-MODEL_PATH = os.path.join(BASE_DIR, 'ml_models', 'yolo26s_best.pt')
-
-# 1. モデルの読み込み（絶対パスで指定）
-# model = YOLO('yolo26s_best.pt')
-model = YOLO(MODEL_PATH)
-
-
 def detect_lost_item(detected_label, detected_color):
     try:
         # 3. マッピング処理：検出された文字を models.py の Choice キーに変換
@@ -28,7 +13,7 @@ def detect_lost_item(detected_label, detected_color):
             'スマホ': 'electronic_device', 'phone': 'electronic_device',
             '財布': 'valuable', 'wallet': 'valuable',
             '本': 'book', 'book': 'book',
-            '水筒': 'daily',
+            '水筒': 'daily', 'bottle': 'daily'
         }
         
         # 辞書から該当するキーを取得
