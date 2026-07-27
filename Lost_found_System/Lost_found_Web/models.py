@@ -8,7 +8,7 @@ import os
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    image = models.ImageField(upload_to='lost_items/', null=True, blank=True)
+    image = models.ImageField(upload_to='lost_items/', blank=False, null=False)
     ITEM_CHOICES = [
         ('umbrella', '傘'),
         ('stationary', '文房具'),
@@ -62,13 +62,13 @@ class Post(models.Model):
         ('fourteenth', '14階'),
     ]
     
-    item = models.CharField(max_length=30, choices=ITEM_CHOICES)
+    item = models.CharField(max_length=30, choices=ITEM_CHOICES, blank=False, null=False)
     item_detail = models.CharField(max_length=100, blank=True)
     
-    color = models.CharField(max_length=20, choices=COLOR_CHOICES)
+    color = models.CharField(max_length=20, choices=COLOR_CHOICES, blank=False, null=False)
     
-    location = models.CharField(max_length=50, choices=LOCATION_CHOICE)
-    floor = models.CharField(max_length=15, choices=FLOOR_CHOICES, blank=True, null=True)
+    location = models.CharField(max_length=50, choices=LOCATION_CHOICE, blank=False, null=False)
+    floor = models.CharField(max_length=15, choices=FLOOR_CHOICES, blank=False, null=False)
     
     location_detail = models.CharField(max_length=100, blank=True)
     
